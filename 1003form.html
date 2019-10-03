@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Document</title>
+</head>
+
+<body>
+
+    <fieldset style="border-radius:30px;"> 
+        <legend> 基本個人資料</legend>
+
+
+        <form action=" http://isbaas.azurewebsites.net/WebForms/Form2Mail.aspx?mailto=temu84523@gmail.com&redirect=http://www.google.com" method="POST">
+
+            <div>
+                <label>姓名:</label>
+                <input type="text" placeholder="請輸入姓名" value="" id="namecol" name="namecol">
+            </div>
+
+            <div>
+                <label>密碼:</label>
+                <input type="password" value="" id="namecol" name="passwordcol">
+            </div>
+
+            <div>
+                <label>性別</label>
+                <input type="radio" name="Gender" value="男">男生
+                <input type="radio" name="Gender" value="女">女生 // 兩個選項會互相排斥
+
+            </div>
+
+
+    </fieldset>
+
+
+    <fieldset style="border-radius:30px;">
+
+        <legend> 興趣&專長</legend>
+
+        <div>
+            <input type="checkbox" id="hobby1" name="hobby" value="音樂"> 音樂
+            <input type="checkbox" id="hobby2" name="hobby" value="桌球"> 桌球
+            <input type="checkbox" id="hobby3" name="hobby" value="圍棋"> 圍棋
+            <input type="checkbox" id="hobby4" name="hobby" value="鋼琴"> 鋼琴
+        </div>
+
+        <div>
+            <label>專長</label>
+            <textarea id="manyword" cols="40" rows="2">
+        </textarea>
+        </div>
+    </fieldset>
+
+
+    <fieldset  style="border-radius:30px;"> 
+        <legend>個人資料--地址 </legend>
+        <div>
+            <label>郵遞區號:</label>
+            <input type="password" value="" id="namecol" name="passwordcol">
+        </div>
+
+        <div>
+            <label>縣市:</label>
+            <select name="city">
+                <option value="1">高雄</option>
+                <option value="2">台北</option>
+                <option value="3" selected>新北</option>
+                <option value="4">新竹</option>
+            </select>
+        </div>
+
+        <div>
+            <label>其他地址:</label>
+            <input type="text" value="" id="namecol" name="passwordcol">
+        </div>
+
+    </fieldset>
+    
+    <input type="submit" name="送件按鈕" value="送件">
+    <input type="reset" name="清除資料" value="清除">
+
+    </form>
+
+
+
+
+</body>
+
+</html>
