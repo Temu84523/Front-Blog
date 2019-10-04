@@ -1,0 +1,80 @@
+
+        .medium{
+            display: flex;
+            width: 90%;
+            height: 400px;
+            border:white 1px solid;
+            background-color:white;
+            margin: 0px auto;
+           
+     }  
+  
+
+
+        .picture2{
+            border:white 1px solid;
+            flex-grow:2;
+     }  
+     
+
+ 
+        .p3{
+            display: flex;
+            flex-direction: column;
+            flex-grow:1;
+            width: 50px;
+            height: 100%;
+        }
+  #haha{
+      background-image: url(https://fakeimg.pl/729x400/?text=%E5%93%88%E5%93%88&font=noto);
+      background-repeat: no-repeat
+      
+      
+  }
+
+  #haha1{
+    background-image: url(https://fakeimg.pl/409x200/?text=%E5%93%88%E5%93%88&font=noto);
+    
+}
+
+#haha2{
+    background-image: url(https://fakeimg.pl/409x200/?text=%E5%93%88%E5%93%88&font=noto);
+    
+}
+.block{
+    display: flex;
+    width: 90%;
+    height: 120px;
+    background-color:white;
+    margin: 0px auto;
+}
+   
+.block1{
+    
+    border:white 1px solid;   
+    width: 100%;
+    height: 120px;
+    text-align: center;
+    
+  
+}
+
+
+.under{
+    display:flex;
+    width: 90%;
+    height: 200px;
+    background-color:white;
+    margin: 0px auto;
+}
+   
+.under1{
+    
+    
+    width: 100%;
+    height: 200px;
+    text-align: center;
+    
+  
+}
+
