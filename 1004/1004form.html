@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+
+
+    <script>
+        function math() {
+            var hightElement = document.getElementById('hight').value;
+
+            var weightElement = document.getElementById('weight').value;
+
+            var x = weightElement / ((hightElement / 100) * (hightElement / 100))
+
+            document.getElementById('result').innerText = '結果' + x;
+
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <fieldset style="border-radius:30px;">
+
+            <div class="row">
+                <div class="class=“col-md-6">
+                    <form method="dialog">
+                        <legend>體重BMI</legend>
+                        <div>
+                            <label>身高:</label>
+                            <input type="text" placeholder="請輸入身高"  class="form-control"id="hight" name="hight">
+                        </div>
+
+                        <div>
+                            <label>體重:</label>
+                            <input type="text" placeholder="請輸入體重" class="form-control" id="weight" name="weight">
+                        </div>
+
+                        <div id="result"> 結果:</div>
+
+                    </form>
+                </div>
+            </div>
+
+
+        </fieldset>
+        <br>
+
+        <input type="submit" name="計算" value="計算" class="btn btn-primary" onclick=" math()">
+    </div>
+
+</body>
+
+</html>

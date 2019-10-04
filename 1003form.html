@@ -29,7 +29,7 @@
             window.onload = function () {
               //hook event(在form1被submit時...)
               getElement('form1').onsubmit = function () {
-              //呼叫 Button_Submit()
+              //呼叫 Button_Submit()  按送出的時候會執行下面
                 return Button_Submit();
               };
             };
@@ -110,6 +110,7 @@
         <div>
             <label>其他地址:</label>
             <input type="text" value="" id="namecol" name="passwordcol">
+           
         </div>
 
     </fieldset>
@@ -121,7 +122,7 @@
 
 
 
-
+    
 </body>
 
 </html>
