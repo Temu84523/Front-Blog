@@ -240,8 +240,14 @@ nav {
 
     .signup-content{
         width:100%;
+   
     }
-}
+  }
+
+
+  
+
+
 
 @media screen and (max-width:767px){
     
@@ -251,3 +257,43 @@ nav {
     
 }
 
+.page-footer {
+  padding: 48px 0px 20px;
+  background-color: #3d4143;
+  text-align: center;
+  color: #cfcfcf;
+
+  ul{
+    font-size: 18px;
+    display: flex;
+  }
+  
+  a{
+    color: white;
+    display: block;
+    padding: 8px;
+  }
+  a:hover{
+    color: beige;
+  }
+}
+
+.footer-menu{
+margin-bottom: 20px;
+
+}
+
+.feature-content{
+display: flex;
+justify-content: space-between;
+padding: 8px;
+}
+
+.footer-logo{
+text-align: left;
+font-size: 20px;
+
+a:hover{
+  color: beige;
+}
+}
