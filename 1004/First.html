@@ -16,15 +16,77 @@
             $('#Button1').click(function (e) {
                 var a = $("#textHeight").val();
                 var b = $("#textWeight").val();
-                var result = b /( (b/100)*(a/100));
+                var result = b / ((b / 100) * (a / 100));
                 $('#result').text(result);
             });
         });
 
+        //勾選
+        $(function () {
+            $('#CheckAll').click(function (e) {
+                if ($('#CheckAll').prop('checked')) {
+                    $("#CheckBoxGroup input").prop('checked', true);
+                }
+                else {
+                    $("#CheckBoxGroup input").prop('checked', false);
 
+                }
+
+            });
+
+        });
+
+        //圖片
+        $(function () {
+            $('#sel01').change(function (e) {
+
+                var val = $(this).val();
+                $('#ImgGroup2 img').removeClass();
+                $('#ImgGroup2 img').addClass(val);
+
+            });
+        });
+
+
+        //變大
+        $(function () {
+            $('#p img').hover(
+                function (img) 
+                {
+                    // over
+                    $(this).css("cursor", "pointer");
+                    $(this).css("transform", "scale(1.1)").css("transition-duration", "0.1s");
+
+                },
+                
+                 function (img)
+                  {
+                    $(this).css("transform", "scale(1.0)").css("transition-duration", "0.1s");
+
+                    // out
+                }
+            );
+            
+        });
 
 
     </script>
+
+
+
+    <style>
+        .br15 {
+            border-radius: 15px;
+        }
+
+        .br30 {
+            border-radius: 30px;
+        }
+
+        .br50 {
+            border-radius: 50px;
+        }
+    </style>
 </head>
 
 <body>
@@ -43,6 +105,77 @@
             <span id="result"></span>
         </div>
     </div>
+
+    <!-- 勾選 -->
+    <div class="row" style="margin:10px">
+        <div class="col-12">
+            <input id="CheckAll" type="checkbox" />勾選全部
+            <div id="CheckBoxGroup" name="checkbox">
+                <input type="checkbox" />項目1
+                <input type="checkbox" />項目2
+                <input type="checkbox" />項目3
+                <input type="checkbox" />項目4
+                <input type="checkbox" />項目5
+                <input type="checkbox" />項目6
+                <input type="checkbox" />項目7
+                <input type="checkbox" />項目8
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 圓角-->
+
+    <div id="ImgGroup2" class="row" style="margin:10px; padding-top:100px">
+        <div class="col-12">
+            <select id="sel01">
+                <option value="br15">15px</option>
+                <option value="br30">30px</option>
+                <option value="br50">50px</option>
+            </select>
+        </div>
+
+        <div class="col-4">
+            <img src="https://media.bnextmedia.com.tw/image/album/2018-01/img-1515398565-99051.jpg" style="width:100%"
+                class="img-responsive" />
+        </div>
+        <div class="col-4">
+            <img src="https://cdn.hk01.com/di/media/images/1748908/org/9ab92913858a9777ad41b22d5106e1b1.jpg/3Sr8HAlz0PniqgXVD3-Zwm68ETQnL6F-4vUMs-L1DLM?v=w1920"
+                style="width:100%" class="img-responsive" />
+        </div>
+        <div class="col-4">
+            <img src="http://www.tanews.org.tw/sites/default/files/imce/user/user42591/01_168.jpg" style="width:100%"
+                class="img-responsive" />
+        </div>
+    </div>
+
+
+    <!-- 圖片變大-->
+
+    <div class="row" style="margin:10px">
+        
+        <div id="p">
+        <div class="col-4">
+            <img src="https://media.bnextmedia.com.tw/image/album/2018-01/img-1515398565-99051.jpg" style="width:100%"
+                class="img-responsive" />
+        </div>
+        <div class="col-4">
+            <img src="https://cdn.hk01.com/di/media/images/1748908/org/9ab92913858a9777ad41b22d5106e1b1.jpg/3Sr8HAlz0PniqgXVD3-Zwm68ETQnL6F-4vUMs-L1DLM?v=w1920"
+                style="width:100%" class="img-responsive" />
+        </div>
+        <div class="col-4">
+            <img src="http://www.tanews.org.tw/sites/default/files/imce/user/user42591/01_168.jpg" style="width:100%"
+                class="img-responsive" />
+        </div>
+
+    </div>
+    </div>
+
+
+
+
+
+
 
 </body>
 
