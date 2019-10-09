@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</head>
+
+
+<script>
+
+
+    $(function () {
+        var input = ""
+
+        $('#buttons button').on('click', function () {
+            var e = $('#' + this).text();
+            if (e == 'AC') {
+
+             input = "";
+
+            }
+            input = input + e;
+            $('#inputScreen').val(input);
+
+        });
+    });
+
+
+
+</script>
+
+
+<body>
+
+    <div class="container">
+        <div class="row" style="margin-top: 50px ">
+            <div class="col-md-3"></div>
+            <div id="buttons" class="col-md-6">
+                <p>
+                    <input id="inputScreen" class="form-control" style="width: 180px" />
+                </p>
+                <p>
+                    <button type="button" id="a" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">AC</button>
+                    <button type="button" id="b" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">(</button>
+                    <button type="button" id="c" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">)</button>
+                    <button type="button" id="d" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">/</button>
+                </p>
+                <p>
+                    <button type="button" id="e" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">7</button>
+                    <button type="button" id="f" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">8</button>
+                    <button type="button" id="g" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">9</button>
+                    <button type="button" id="h" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">*</button>
+                </p>
+                <p>
+                    <button type="button" id="i" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">4</button>
+                    <button type="button" id="j" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">5</button>
+                    <button type="button" id="k" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">6</button>
+                    <button type="button" id="l" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">-</button>
+                </p>
+                <p>
+                    <button type="button" id="m" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">1</button>
+                    <button type="button" id="n" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">2</button>
+                    <button type="button" id="o" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">3</button>
+                    <button type="button" id="p" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">+</button>
+                </p>
+                <p>
+                    <button type="button" id="r" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">0</button>
+                    <button type="button" id="s" class="btn btn-light rounded-circle"
+                        style="width:40px;height:40px;">.</button>
+                    <button type="button" id="t" class="btn btn-light rounded"
+                        style="width:90px;height:40px;">=</button>
+                </p>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>
