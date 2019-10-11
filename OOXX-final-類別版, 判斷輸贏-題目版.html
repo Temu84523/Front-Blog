@@ -1,0 +1,87 @@
+<!DOCTYPEhtml>
+    <html lang="en">
+
+    <head>
+        <title>OOXX-final-類別版, 判斷輸贏-題目版</title>
+        <style>
+            td {
+                text-align: center;
+                cursor: pointer;
+            }
+        </style>
+
+        <script>
+            class OOXX {
+                constructor() {
+                    /* 建立二維陣列 */
+
+                    this.dat=[];
+                    this.dat[0]=['','',''];
+                    this.dat[1]=['','',''];
+                    this.dat[2]=['','',''];
+                }
+
+                setPoint(x, y, point) {
+                    /* todo */
+                    this.dat[x][y]=point;
+                }
+
+                HasWinner() {
+                    /* 判斷勝利者 */
+
+                    return '';
+                }
+            }
+
+            var flag = "";
+            var game = new OOXX();
+
+            function SetPoint(obj) {
+                //alert(obj);
+                if (obj.innerText != "_") return;
+                if (flag == "X") {
+                    flag = "O";
+                    obj.innerText = 'O';
+                }
+                else {
+                    flag = "X";
+                    obj.innerText = 'X';
+                }
+                //show
+                var label = document.getElementById('lebel1');
+                //顯示位置
+                label.innerHTML = "rowIndex: " + obj.parentElement.rowIndex + " CellIndex: " + obj.cellIndex + " --> " + obj.innerText;
+                //設定落子
+                //game.setPoint(obj.parentElement.rowIndex, obj.cellIndex, obj.innerText);
+                //有人贏嗎?
+                //if (game.HasWinner() != '') label.innerHTML = `<span style='color:red'>winner : ${game.HasWinner()}</span>`;
+            }
+        </script>
+    </head>
+
+    <body>
+        <h3>OOXX遊戲</h3>
+        <div style="font-size: 80px">
+            <table border="1" style="width: 400px; height:300px">
+                <tr>
+                    <td onclick="SetPoint(this);">_</td>
+                    <td onclick="SetPoint(this);">_</td>
+                    <td onclick="SetPoint(this);">_</td>
+                </tr>
+                <tr>
+                    <td onclick="SetPoint(this);">_</td>
+                    <td onclick="SetPoint(this);">_</td>
+                    <td onclick="SetPoint(this);">_</td>
+                </tr>
+                <tr>
+                    <td onclick="SetPoint(this);">_</td>
+                    <td onclick="SetPoint(this);">_</td>
+                    <td onclick="SetPoint(this);">_</td>
+                </tr>
+            </table>
+        </div>
+        <label id=lebel1>desc:</label>
+
+    </body>
+
+    </html>

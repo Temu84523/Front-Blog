@@ -15,21 +15,22 @@
 <script>
 
 
-    $(function () {
-        var input = ""
-
-        $('#buttons button').on('click', function () {
-            var e = $('#' + this).text();
-            if (e == 'AC') {
-
-             input = "";
-
+    $(document).ready(function () {
+        $('#buttons button').click(function (e) {
+            if ($(this).text() == $('#ac').text()) {
+                $('#inputScreen').val("");
+                return;
             }
-            input = input + e;
-            $('#inputScreen').val(input);
+            if ($(this).text() == $('#t').text()) {
+                var A = eval($('#inputScreen').val());
+                $('#inputScreen').val(A);
+                return;
+            }
 
+            $('#inputScreen').val($('#inputScreen').val() + this.innerText);
         });
     });
+
 
 
 
@@ -46,9 +47,9 @@
                     <input id="inputScreen" class="form-control" style="width: 180px" />
                 </p>
                 <p>
-                    <button type="button" id="a" class="btn btn-light rounded-circle"
+                    <button type="button" id="ac" class="btn btn-light rounded-circle"
                         style="width:40px;height:40px;">AC</button>
-                    <button type="button" id="b" class="btn btn-light rounded-circle"
+                    <button type="button" class="btn btn-light rounded-circle"
                         style="width:40px;height:40px;">(</button>
                     <button type="button" id="c" class="btn btn-light rounded-circle"
                         style="width:40px;height:40px;">)</button>

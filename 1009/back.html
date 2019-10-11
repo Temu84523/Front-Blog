@@ -14,19 +14,29 @@
         $(function () {
             $('#Button1').click(ButtonStart);
             $('#Button2').click(ButtonPause);
+            $('#Button3').click(ButtonCountinue);
         });
 
         var isPause = false;
+     
+        
+        //為何 if (isPause == false) {
+
+  
         function set() {
             if (isPause == false) {
-            var dt = new Date();//抓取時間
-            //document.getElementById('label2').innerHTML = dt.Format("yyyy-M-d HH:mm:ss.S") //format括弧裡面一定要有東西
-            $('#label2').html(dt.Format("yyyy-M-d HH:mm:ss.S"));
-            setTimeout(set, 1000);
-
+                if ($('#number').val()>0) {
+                //$('#label2').html($('#number').val()-1);
+                    $('#number').val($('#number').val()-1);
+                    setTimeout(set, 1000);                       
+                }
+                else {                    
+                    $('#myModal').modal();     
+                }
+                
             }
-            
         }
+    
 
         function ButtonStart() {
             isPause = false;
@@ -35,6 +45,11 @@
 
         function ButtonPause() {
             isPause = true;
+        }
+
+        function ButtonCountinue() {
+            isPause = false;
+            set();
         }
 
 
@@ -72,19 +87,45 @@
         }
     </script>
 
+
 </head>
 
 <body>
 
-    
-    
+    <input id=number value=""style="font-family:LED">
 
-    <label id=label2 style="font-family:LED">TEST</label>
+   
+     <!-- <label id=label2 style="font-family:LED">TEST</label>-->
     <button class="btn btn-primary" id="Button1">時間</button>
     <button class="btn btn-primary" id="Button2">暫停</button>
+    <button class="btn btn-primary" id="Button3">繼續</button>
 
-    
 
+
+
+    <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title"> 提示訊息</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        時間到囉!
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 </body>
 
 </html>
