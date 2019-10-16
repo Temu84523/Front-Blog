@@ -15,44 +15,61 @@
 
     <script>
         $(function () {
+
+        
             $('#trans').click(function () {
                 var inputtext = $('#input').val();
                 var word = $('#word').val();
 
                 $.ajax({
-                    type: "post", //http verb
+                    type: "post",
                     headers: {
-                        //http header
+
                         "Ocp-Apim-Subscription-Key": "8be9178533a14f8a9ae0a5890f9c1ab9",
                         "Content-Type": "application/json"
                     },
-                    url:  `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${word}`,
+                    url: `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${word}`,
                     data: JSON.stringify([{ "Text": inputtext }]), //要翻譯的文字
                     dataType: "json",
                     success: function (response) {
                         //呼叫遠端服務後的回傳結果
-                        $('#output').val(response[0].translations[0].text);
+                         $('#output').val(response[0].translations[0].text);
+                        var x = response[0].translations[0].text;
+                        localStorage.setItem('MyData', x);
                     }
+
                 });
 
-
+                document();
             });
 
-            $('#clear').click(function () { 
-                
+           
+
+            $('#clear').click(function () {
+
                 $('#output').val("");
                 $('#input').val("");
+                
+              
             });
 
-            $('#cycle').click(function () { 
-               
-                var newinput=$('#output').val();
-                var newoutput=$('#input').val();
-               
+            $('#cycle').click(function () {
+
+                var newinput = $('#output').val();
+                var newoutput = $('#input').val();
+
                 $('#input').val(newinput);
                 $('#output').val(newoutput);
 
             });
+
+            function document()
+                {
+                    localStorage.lastQuery=$('#output').val()
+                }
+
+               
+
         });
     </script>
 
@@ -74,7 +91,7 @@
                     <div class="card-header">
                         <p>輸入需要翻譯的文字</p>
 
-                        <select id="word" class="custom-select " >
+                        <select id="word" class="custom-select ">
                             <option selected>語言</option>
                             <option value="en">英文</option>
                             <option value="ja">日文</option>
@@ -91,7 +108,7 @@
             </div>
 
             <!-- 按鈕-->
-            <div class="col-4" >
+            <div class="col-4">
                 <button id="trans" class="btn btn-dark"> 翻譯</button><br>
                 <button id="clear" class="btn btn-dark"> 清除</button><br>
                 <button id="cycle" class="btn btn-dark">交換</button>
