@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+    <!--JQ的引用-->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!--引用的範本-->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="Chat.css">
+
+
+
+<script>
+        $(function () {
+            $('#ButtonSend').click(ButtonSend);
+            $('#inputText').keypress(function (e) {
+                if (e.keyCode == 13) {
+                    ButtonSend();
+                    return false;
+                }
+
+            });
+
+        });
+
+        function ButtonSend() {
+            var html = $('#TalkContainer').html();
+            var UserSay = $('#inputText').val();
+            //clean
+            $('#inputText').val('');
+            //show user Says...
+            $('#TalkContainer').html(html + '<br /><br />用戶 : ' + UserSay);
+            //scroll to bottom
+            $('#TalkContainer').scrollTop($('#TalkContainer')[0].scrollHeight); 
+            //取得答案...
+            GetAnswer(UserSay, function (ret) {
+                //如果ok
+                //show user Says...
+                let html = $('#TalkContainer').html();
+                $('#TalkContainer').html(html + '<br /><br />客服 : ' + ret.answers[0].answer);
+                //scroll to bottom
+                $('#TalkContainer').scrollTop($('#TalkContainer')[0].scrollHeight);
+            }); 
+        }
+
+        function GetAnswer(msg, whenSuccess) {
+            $.ajax({
+                type: "post",
+                headers: {
+                    "Authorization": "EndpointKey 7d9c1bf8-9613-4510-8d52-0218f4500ca2",
+                    "Content-Type": "application/json"
+                },
+                url: "https://chattemu.azurewebsites.net/qnamaker/knowledgebases/74dd3802-e238-4c21-a066-eb7bcf8eec38/generateAnswer",
+                data: JSON.stringify({ "question": msg }),
+                dataType: "json",
+                success: whenSuccess,
+                error: function (err) {
+                    //如果有錯
+                }
+            });
+        }
+</script>
+
+
+
+
+</head>
+
+<body>
+
+    <div class="row" style="margin: 10px">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <!-- 卡片  -->
+            <div class="card">
+                <!-- 卡片標題 -->
+                <span class="card-header bg-primary" style="color:white">
+                    對談機器人
+                </span>
+                <!-- 卡片內容 -->
+                <div class="card-body">
+                    <!-- 對談區 -->
+                    <div id="TalkContainer" style="overflow: auto; height: 300px;">
+                    </div>
+                </div>
+            </div>
+            <form class="form-inline">
+                <input id="inputText" class="form-control" style="width:88%">
+                <button type="button" id="ButtonSend" class="btn btn-primary">送出</button>
+            </form>
+        </div>
+        <div class="col-2"></div>
+
+</body>
+
+</html>
