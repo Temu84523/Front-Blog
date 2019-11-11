@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <!--jquery引用-->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <!-- bootstrap 4.3.1 -->
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <!--jquery table的css引用-->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+        <!--jquery table的js引用-->
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <title>Calendar</title>
+        <style>
+            /* 整體設定(複製的) */
+            * {
+                margin: 0px;
+                padding: 0px;
+    
+            }
+    
+            th {
+                width: 100px;
+            }
+    
+            tbody tr {
+                height: 100px;
+            }
+    
+            td {
+                border: 1px #cccccc solid;
+                color: gray;
+            }
+    
+            /* 當前天 顏色特殊顯示 */
+            .currentDay {
+                color: black;
+            }
+        </style>
+        <script>
+            var Calendar = [];
+            var now = new Date();
+            var cYear = now.getFullYear();//年
+            var cMonth = now.getMonth();//月
+            var cFirstDay;
+            var nDay;
+            var cDay;
+            var cTD;
+            var lDay;
+            var nDay;
+            var tempDay;
+            var tempBlank;
+            var tempcDay;
+            var tempLast;
+            var tempInt;
+    
+            function setPar() {
+                cFirstDay = new Date(cYear, cMonth, 1);//當月第一日
+                cDay = cFirstDay.getDay();//第一天是星期幾;
+                lDay = new Date(cYear, cMonth, 0);//前月最後一日
+                nDay = new Date(cYear, cMonth + 1, 0);//本月最後一日               
+                tempDay = lDay.getDate();
+                tempBlank = cDay - 1;        
+                //上月最後一天的星期數
+                tempcDay = cDay;            
+                tempLast = nDay.getDate() + cDay;
+                tempInt = 1;
+            }
+            $(function () {
+                setPar();
+                createHTML();
+                cTD = document.getElementById("calendar").getElementsByTagName("td");
+                setCalendar();
+    
+                $('#prevMonth').click(function (e) {
+                    setLastPar();
+                    createHTML();
+                    setCalendar();
+                    console.log('重新設置完成' + cMonth);
+                });
+    
+                $('#nextMonth').click(function (e) {
+                    setNextPar();
+                    createHTML();
+                    setCalendar();
+                    console.log('重新設置完成' + cMonth);
+                });
+            })
+    
+            function setLastPar() {
+                if (cMonth == 0) {
+                    cYear--;
+                    cMonth = 11;
+                }
+                else {
+                    cMonth--;
+                }
+                setPar();
+            }
+            function setNextPar() {
+                if (cMonth == 11) {
+                    cYear++;
+                    cMonth = 0;
+                }
+                else {
+                    cMonth++;
+                }
+                setPar();
+            }
+    
+            function createHTML() {
+                document.getElementById('calendar').innerHTML = "";
+                let bodyHTML = "";
+                let rowNum = (parseInt(cDay) + parseInt(nDay.getDate())) / 7;
+                console.log(rowNum);
+                for (i = 0; i < rowNum; i++) {
+                    bodyHTML += "<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+                }
+                $("#calendar").append(bodyHTML);
+            }
+            function setCalendar() {
+                let tempMonth = parseInt(cMonth) + 1
+                document.getElementById('year').innerText = cYear + '年' + tempMonth + '月';
+
+                console.log(cMonth);
+                let tempCDay = cDay;
+                for (i = 0; i < cTD.length; i++) {
+                    cTD[i].className = '';
+                }
+                for (var i = 1; i < nDay.getDate() + 1; i++) {
+                    cTD[tempCDay].innerText = i;
+                    cTD[tempCDay].className = 'currentDay';
+                    tempCDay++;
+                }
+                console.log('當月份完成');
+                if (cDay != 0) {
+                    cTD[0].innerText = '';
+                    setnDay();
+                }
+                let tempnu = parseInt(tempLast) % 7;
+                if (tempnu != 0) {
+                    cTD[cTD.length - 1].innerText = '';
+                    setNextMonth();
+                }
+    
+    
+            }
+    
+            function setnDay() {
+                if (cTD[0].innerText == '') {
+                    cTD[tempBlank].innerText = tempDay;
+                    tempBlank--;
+                    tempDay--;
+                    setnDay();
+                }
+            }
+    
+            function setNextMonth() {
+                if (cTD[cTD.length - 1].innerText == '') {
+                    cTD[tempLast].innerText = tempInt;
+                    tempLast++;
+                    tempInt++;
+                    setNextMonth()
+                }
+            }
+    
+    
+    
+    
+        </script>
+    </head>
+    
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 bg-secondary text-light text-center">
+                    <a class="btn bg-secondary btn-lg float-left" role="button" aria-disabled="false"
+                        id="prevMonth">&#10094;</a>
+                    <a class="btn bg-secondary btn-lg float-left" role="button" aria-disabled="false" id="Activity"
+                        data-toggle="modal" data-target="#exampleModal">
+                        <svg width="36" height="36" viewBox="0 0 36 36">
+                            <path fill="#ffffff" d="M16 16v14h4V20z"></path>
+                            <path fill="#ffffff" d="M30 16H20l-4 4h14z"></path>
+                            <path fill="#ffffff" d="M6 16v4h10l4-4z"></path>
+                            <path fill="#ffffff" d="M20 16V6h-4v14z"></path>
+                            <path fill="none" d="M0 0h36v36H0z"></path>
+                        </svg>
+                    </a>
+                    <span class="year h1" id="year">&emsp;</span>
+                    <a class="btn bg-secondary btn-lg float-right" role="button" aria-disabled="false"
+                        id="nextMonth">&#10095;</a>
+                </div>
+                <table class="table">
+                    <thead class="thead-light text-center">
+                        <tr>
+                            <th scope="col">Sun</th>
+                            <th scope="col">Mon</th>
+                            <th scope="col">Tue</th>
+                            <th scope="col">Wed</th>
+                            <th scope="col">Thu</th>
+                            <th scope="col">Fri</th>
+                            <th scope="col">Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody class="calendarWeek" id='calendar'>
+                    </tbody>
+                </table>
+            </div>
+    
+            <div class="modal fade"  id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">新增活動</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" >
+                            <p class="mt-2 mb-1">活動標題</p>
+                            <input type="text" class="w-100" name="actTitle"></input>
+                            <p class="mt-2 mb-1">開始時間</p>
+                            <input type="datetime-local" class="w-100" name="actTime"></input>
+                            <p class="mt-2 mb-1">活動內容</p>
+                            <textarea rows="5" cols="10" class="w-100" name="actContext"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="actSave">新增</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+    
+    
+    </body>
+    
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- bootstrap 4.3.1 -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- jQuery UI Datepicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+    <!-- 寫功能 -->
+
+    <Script>
+
+        $(function () {
+
+
+            $("#test").click(function (e) {
+                resultshow();//顯示出結果區塊
+
+                count(datesum);
+            });
+
+        });
+
+
+
+
+
+
+
+
+        //1.顯示出結果區塊
+        function resultshow() {
+
+            var show = document.getElementById('result')
+            show.style.display = "block"
+        }
+
+        //2.計算靈數
+        function count() {
+            var datesum = birthday.value();
+          
+            var value = 0;
+            for (let i = 0; i < datesum.length; i++) {
+                value += parseInt(datesum[i]);
+            console.log(datesum);
+        }
+    }
+
+
+
+
+
+
+
+    </Script>
+
+
+</head>
+
+<body>
+
+
+    <div class="container">
+        <div class="row">
+            <h2>生命靈數</h2>
+        </div>
+
+        <div class="col-12">
+            <div class="input-group mb-3">
+                <input type="date" class="form-control" placeholder="Search" id="birthday">
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="submit" id="test">測試</button>
+                </div>
+
+            </div>
+
+            <div class="col-12"></div>
+
+            <div class="card" id="result" style="display:none;">
+                <div class="card-header">計算結果</div>
+                <div class="card-body">
+                    <P>出生的你，星座是......</P>
+                    <P>你的生命靈數：</P>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+    </div>
+
+</body>
+
+</html>
