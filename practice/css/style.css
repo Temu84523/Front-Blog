@@ -1,0 +1,35 @@
+.flex-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 500px;
+  height: 100px;
+  border: #f00 1px solid;
+}
+
+.item {
+  border: black 1px solid;
+}
+
+#table1 {
+  width: 400px;
+  border: 3px solid green;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  border: 1px solid red;
+  padding: 4px;
+  text-align: center;
+  vertical-align: bottom;
+}
+
+tbody tr:nth-child(2n) {
+  background-color: yellow;
+}
+
+tbody tr:nth-child(2n+1) {
+  background-color: silver;
+}
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Puzzle</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <!-- JQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <style>
+        #dvPuzzle {
+            width: 505px;
+            height: 505px;
+            border: inset 5px rgb(255, 145, 0);
+        }
+
+        .PicCell {
+            /* 在框線設定上，我們將上/左設為白框線、下/右設為灰框線，讓圖塊呈現立體浮起的視覺效果。 */
+            /* 設定<div>CSS的overflow為hidden並限定width/height，這樣子<div>內<img>尺寸較大超出範圍都會被隱藏 */
+            border-top: dot 1px white;
+            border-left: solid 1px white;
+            border-right: solid 1px gray;
+            border-bottom: solid 1px gray;
+            float: left;
+            overflow: hidden;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            //將位置轉換座標的換算表
+            var posConv = {};
+            //NxN圖形(預設)
+            var n = $("#NxN").val();
+            var nxn = n * n;
+            console.log("nxn圖形:", nxn);
+            StartUp();
+            //使用選單更換NxN圖形
+            $("#NxN").change(GetNxN);
+            //變更NxN圖形
+            function GetNxN() {//取得NxN圖形
+                //資料清空
+                $("#dvPuzzle").empty()
+                //取得新資料
+                n = $("#NxN").val();
+                nxn = n * n;
+                console.log("nxn圖形:", nxn);
+                StartUp();
+            }
+
+            function StartUp() {//遊戲初始設定
+                //將畫面分成NxN張圖片
+                for (var i = 0; i < nxn; i++) {
+                    $("#dvPuzzle").append("<div class='PicCell' id='Pic" + i + "'><img src='YourName2_500x500.jpg' /></div>");
+                    var row = parseInt(i / n);
+                    //console.log("row:", row);
+                    var col = i % n;
+                    //console.log("col:", col);
+                    // 將margin-top/margin-left設定為負值，就可以自由控制圖檔案顯示的範圍
+                    $("#Pic" + i + " img").css("margin-left", col * (-500 / n) + 1).css("margin-top", row * (-500 / n) + 1);//margin-top/left達到圖片裁切效果
+                    $(".PicCell").css("width", (500 / n) - 2).css("height", (500 / n) - 2);
+                    //第i個換成第row列第col行
+                    posConv[i] = { row: row, col: col };
+                }
+
+                $("#Pic8 img").remove();//將右下角圖片移除變成空的<div>
+
+                //取得開始前畫面用於結束判定(勝利判斷)
+                endcell = new Array;
+                cells = new Array;
+                for (var i = 0; i < nxn; i++) {
+                    endcell[i] = $("#dvPuzzle div").eq(i).attr("id");//取得dvPuzzle div中的id
+                    console.log("endcell[i]:", endcell[i]);
+                }
+                //點選圖片
+                $(".PicCell").click(function () {
+                    //找尋上下左右有沒有Pic8，有則可以與它交換位置
+                    //先找出點擊的Pic是nxn個中第幾個?
+                    var cells = $("#dvPuzzle div");
+                    console.log("cells:", cells);
+                    //取得被點選的位置編號
+                    var i = cells.index(this);
+                    //取得被點選的單一拼圖四周拼圖的編號
+                    var ToCheck = GetNearPos(i);
+                    console.log("ToCheck:", ToCheck)
+                    //如果陣列裡還有值
+                    while (ToCheck.length > 0) {
+                        //每次抓出陣列最後一個數值
+                        var j = ToCheck.pop();
+                        console.log("j:", j)
+                        //看被抓出的值是否為0
+                        if (cells.eq(j).attr("id") == "Pic8") //如果為空白圖片，交換位置
+                        {
+                            //排序，必要時對調，讓i < j
+                            if (i > j) {
+                                var k = j; j = i; i = k;
+                            }
+                            var ahead = cells.eq(i);
+                            console.log("ahead:", ahead)
+                            var behind = cells.eq(j);
+                            console.log("behind:", behind)
+                            var behindPrev = behind.prev();//prev是找前一個物件
+                            //左右對調
+                            if (Math.abs(i - j) == 1)
+                                behind.after(ahead);
+                            else //上下對調
+                            {
+                                ahead.after(behind);
+                                behindPrev.after(ahead);
+                            }
+                            if (GameVictory) {
+                                GameWin();
+                            }
+                            break;
+                        }
+                    }
+                });
+            }
+
+            //取得四周相鄰的位置
+            function GetNearPos(i) {
+                var pool = [];
+                var row = posConv[i].row, col = posConv[i].col;
+                //ToCheck用來放入待比對的對象，ToCheck = GetNearPos(i)
+                if (row > 0) //上方Pic
+                    pool.push((row - 1) * n + col);
+                if (row < n) //下方Pic
+                    pool.push((row + 1) * n + col);
+                if (col > 0) //左方Pic
+                    pool.push(i - 1);
+                if (col < n) //右方Pic
+                    pool.push(i + 1);
+                console.log("上下左右:", pool)
+                return pool;
+            }
+            //勝利判斷
+            function GameWin() {
+                for (var i = 0; i < nxn; i++) {
+                    cells[i] = $("#dvPuzzle div").eq(i).attr("id");
+                    if (cells[i] != endcell[i]) {
+                        break;
+                    }
+                    if (i == nxn - 1) {
+                        alert("YouWin");
+                    }
+                }
+            }
+            //開始遊戲按鈕
+            $("#Startbtn").click(function () {
+                //設置用來跳過通關檢測的變數(避免開始中途直接過關)
+                GameVictory = false;
+                //input輸入隨機交換次數
+                var stepCount = $("#ChangeCount").val()
+                for (var i = 0; i < stepCount; i++) {
+                    var cells = $("#dvPuzzle div");
+                    //找出空格所在位置，並取得其相鄰圖塊
+                    var toMove = GetNearPos(cells.index($("#Pic8")[0]));
+                    cells.eq(toMove[ //由空格的相鄰圖塊擇一挪動
+                        parseInt(Math.random() * toMove.length)
+                    ]).click();
+                }
+                GameVictory = true;
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="row" style="margin: 4%">
+        <div class="col-6">
+            <div>
+                <div id="dvPuzzle"></div>
+            </div>
+        </div>
+        <div class="col-6">
+            <!-- <center> -->
+            <!-- <div class="card"> -->
+            <!-- <header class="btn btn-dark">遊戲選項</header> -->
+            <div style="margin:2%">
+                <label><b>請選擇nxn:</b></label>
+                <select class="form-control" name="NxN" id="NxN">
+                    <option value="3" selected>3x3</option>
+                    <option value="4">4x4</option>
+                    <option value="5">5x5</option>
+                </select><br>
+                <label><b>開始時隨機交換拼圖幾次:</b></label>
+                <input class="form-control" type="text" id="ChangeCount" value="87"><br>
+                <input class="btn btn-outline-success btn-block" type="button" id="Startbtn" value="開始" /><br>
+            </div>
+            <!-- </div> -->
+            <!-- </center> -->
+        </div>
+    </div>
+
+</body>
+
+</html>
