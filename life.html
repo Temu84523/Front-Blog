@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>生命靈數</title>
+    
+        <!-- bootstrap 4.3.1 -->
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    
+        <!-- jQuery UI Datepicker -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    
+        <script>
+            $(function () {
+                date();
+    
+                $('#showresult').click(function () {
+                    date = $('#datetimepicker').val();
+                    catchlifenumber();
+                });
+            });
+    
+            var date;
+            var index;
+            var StarDate = [
+                { 'star': 'capricorn1', 'date': '1222' },
+                { 'star': 'sagittarius1', 'date': '1123' },
+                { 'star': 'scorpio1', 'date': '1024' },
+                { 'star': 'libra1', 'date': '923' },
+                { 'star': 'virgo1', 'date': '823' },
+                { 'star': 'leo1', 'date': '723' },
+                { 'star': 'cancer1', 'date': '622' },
+                { 'star': 'gemini1', 'date': '521' },
+                { 'star': 'taurus1', 'date': '420' },
+                { 'star': 'aries1', 'date': '321' },
+                { 'star': 'pisces1', 'date': '219' },
+                { 'star': 'aquarius1', 'date': '120' },
+                { 'star': 'capricorn2', 'date': '0' },
+            ];
+    
+            function date() {
+                $('#datetimepicker').datepicker({
+                    dateFormat: "yy/mm/dd"
+                });
+                $('#resultfield').hide();
+            }
+    
+            function getResult(star, index) {
+                $.ajax({
+                    type: "get",
+                    url: "https://buildschoolnumerology.azurewebsites.net/api/Number/Numerology",
+                    data: { "constellation": star },
+                    dataType: "json",
+                    success: show
+                });
+            }
+    
+            function catchlifenumber() {
+                getResult(catchStar(), calculateIndex());
+            }
+    
+            function catchStar() {
+                var day = date.substr(5, 5).replace("/", "");
+                let star;
+                for (let i = 0; i < StarDate.length; i++) {
+                    if (day >= StarDate[i].date) {
+                        star = StarDate[i].star.substr(0, StarDate[i].star.length - 1);
+                        break;
+                    }
+                }
+                return star;
+            }
+    
+            function calculateIndex() {
+                var datesum = date.replace("/", "").replace("/", "");
+                return calculate(datesum);
+            }
+    
+            function calculate(datesum) {
+                var value = 0;
+                for (let i = 0; i < datesum.length; i++) {
+                    value += parseInt(datesum[i]);
+                    
+                }
+                datesum = value.toString();
+                if (value >= 10) {
+                    calculate(datesum);
+                }
+                else {
+                    index = value - 1;
+                }
+            }
+    
+            function show(response) {
+                $('#resultdate').val(date);
+                $('#resultstar').text(response.name);
+                $('#resultvalue').text((index + 1));
+                $('#resulttext').text(response.lookup[index]);
+                $('#resultfield').show();
+            }
+    
+        </script>
+    </head>
+    
+    <body>
+        <div class="container pt-4">
+            <div class="row">
+                <div>
+                    <h2>生命靈數測驗</h2>
+                </div>
+                <div class="input-group">
+                    <div class="input-group date" id='date1'>
+                        <input type="text" class="form-control custom-select" placeholder="年/月/日" id="datetimepicker">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" id="showresult">分析結果</button>
+                        </div>
+                    </div>
+                    <div class="card input-group" id="resultfield">
+                        <div class="card-body bg-white">
+                            <div class="m-1">
+                                <label><input id="resultdate"
+                                        class="btn btn-primary text-white align-content-center text-center mr-1" type="text"
+                                        style="width:110px;height: 25px;" value="20191012"><span
+                                        class="align-content-center">出生的你，星座是</span><em><span id="resultstar"
+                                            class="align-content-center"></span></em>
+                                </label>
+                                <br />
+                                <label><span class="align-content-center">你的生命靈數：</span></label>
+                                <br />
+                                <label><span id="resultvalue" class="align-content-center"></span>.<span id="resulttext"
+                                        class="align-content-center"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    
+    </body>
+</html>

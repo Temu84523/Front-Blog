@@ -18,51 +18,116 @@
     <!-- 寫功能 -->
 
     <Script>
+        // step1.把查詢的資料先建立
+        var date;
+        var index;
+        var datevalue=0; //存放日期所有的加總
+        var StarDate = [
+            { 'star': 'capricorn1', 'date': '1222' },
+            { 'star': 'sagittarius1', 'date': '1123' },
+            { 'star': 'scorpio1', 'date': '1024' },
+            { 'star': 'libra1', 'date': '923' },
+            { 'star': 'virgo1', 'date': '823' },
+            { 'star': 'leo1', 'date': '723' },
+            { 'star': 'cancer1', 'date': '622' },
+            { 'star': 'gemini1', 'date': '521' },
+            { 'star': 'taurus1', 'date': '420' },
+            { 'star': 'aries1', 'date': '321' },
+            { 'star': 'pisces1', 'date': '219' },
+            { 'star': 'aquarius1', 'date': '120' },
+            { 'star': 'capricorn2', 'date': '0' },
+        ];
 
         $(function () {
-
+            $('#resultfield').hide();
 
             $("#test").click(function (e) {
-                resultshow();//顯示出結果區塊
-
-                count(datesum);
+                // step2.抓星期的值
+                date = $('#birthday').val();
+                catchnumber();
             });
 
         });
+        //step2.先將日期做加總
 
+        //step2.1先將橫線拿掉 以及 2.3加總日期
+        function mathdate() {
 
+            var dateadd = date.replace("-", "").replace("-", "");
+            console.log(dateadd);//目前每一個數字都是字串
+            
+             // return dateadd 第一次的邏輯
+            return  calculate(dateadd);
+            console.log(dateadd);
 
-
-
-
-
-
-        //1.顯示出結果區塊
-        function resultshow() {
-
-            var show = document.getElementById('result')
-            show.style.display = "block"
         }
 
-        //2.計算靈數
-        function count() {
-            var datesum = birthday.value();
-          
-            var value = 0;
-            for (let i = 0; i < datesum.length; i++) {
-                value += parseInt(datesum[i]);
-            console.log(datesum);
+        //step2.2建立數字加總的邏輯 
+
+        function calculate(dateadd) {
+               
+                var value=0;
+                for (let i = 0; i < dateadd.length; i++) {
+                    value += parseInt(dateadd[i]); //字串也等於是一個陣列
+                }
+                dateadd = value.toString();
+
+                console.log(dateadd)
+                if (value >= 10) {
+                    calculate(dateadd);
+                }
+                else {
+                    index = value - 1;
+                }
+            }
+
+
+
+        //step3.查詢星座
+
+        //3.1查詢集合資料表
+        function catchStar() {
+            var day = date.substr(5, 5).replace("-", ""); //substr(起始值, 結束值)
+
+            console.log(day);
+            let star;
+            for (let i = 0; i < StarDate.length; i++) {
+                if (day >= StarDate[i].date) {
+                    star = StarDate[i].star.substr(0, StarDate[i].star.length - 1);
+                    break;
+                }
+            }
+            return star;
         }
-    }
+
+        function searchstar(star, index) {
+            $.ajax({
+                type: "get",
+                url: "https://buildschoolnumerology.azurewebsites.net/api/Number/Numerology",
+                data: { "constellation": star },
+                dataType: "json",
+                success: show
+            });
+
+            console.log(star)
+        }
 
 
+        function catchnumber() {
+            searchstar(catchStar(), mathdate());
+        }
 
 
-
+        function show(response) {
+            $('#resultdate').val(date);
+            $('#resultstar').text(response.name);
+            $('#resultvalue').text((index + 1));
+            $('#resulttext').text(response.lookup[index]);
+            $('#resultfield').show();
+        }
 
 
     </Script>
-
 
 </head>
 
@@ -85,14 +150,23 @@
 
             <div class="col-12"></div>
 
-            <div class="card" id="result" style="display:none;">
-                <div class="card-header">計算結果</div>
-                <div class="card-body">
-                    <P>出生的你，星座是......</P>
-                    <P>你的生命靈數：</P>
+            <div class="card input-group" id="resultfield">
+                <div class="card-body bg-white">
+                    <div class="m-1">
+                        <label><input id="resultdate"
+                                class="btn btn-primary text-white align-content-center text-center mr-1" type="text"
+                                style="width:110px;height: 25px;" value="20191012"><span
+                                class="align-content-center">出生的你，星座是</span><em><span id="resultstar"
+                                    class="align-content-center"></span></em>
+                        </label>
+                        <br />
+                        <label><span class="align-content-center">你的生命靈數：</span></label>
+                        <br />
+                        <label><span id="resultvalue" class="align-content-center"></span>.<span id="resulttext"
+                                class="align-content-center"></span>
+                        </label>
+                    </div>
                 </div>
-
-            </div>
 
         </div>
 

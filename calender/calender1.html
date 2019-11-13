@@ -57,6 +57,7 @@
         var LDay;
         var CDate;
         var i = 1
+        var Eventlist=[];
 
         $(function () {
 
@@ -65,6 +66,8 @@
             CreateCalendar();
             $("#nextmonth").click(Addmonth);
             $("#premonth").click(decrease);
+            $("#Buttonexport").click(Actevent);
+
 
 
 
@@ -155,6 +158,7 @@
 
             for (i = 1; i <= NLDay; i++) {
                 $(`#td${NDay - 1 + i}`).text(`${i}`);
+               
 
             }
 
@@ -197,6 +201,47 @@
         }
 
 
+        function Actevent() {
+            let Addevent = new Event();
+            Addevent.actYear = parseInt($("#year").val());
+            Addevent.actMonth = parseInt($("#montht").val());
+            Addevent.actDay =  parseInt($("#day").val());
+            Addevent.actevent = $("#things").val();
+            Eventlist.push(Addevent);
+            var document=JSON.stringify(Eventlist);
+
+
+            
+            console.log(Eventlist);
+            console.log(document);
+            
+           
+       
+            // if (temp.actTime == undefined) {
+            //     temp.actTime = "";
+            // }
+            // temp.actContext = $("#actContext").val();
+            // console.log(temp.actTitle + temp.actYear + temp.actMonth + temp.actday);
+            // actList.push(temp);
+            // var str = JSON.stringify(actList); //把dat資料json化
+            // console.log(str);
+            // localStorage.setItem('Avtivity', str);//存到本機
+        }
+
+        class Event {
+            constructor() {                   
+                    this.actYear = "",
+                    this.actMonth = "",
+                    this.actDay = "",
+                    this.actTime = "",
+                    this.actevent = ""
+            }
+        }
+
+        //清空新增表格欄位的值
+        function clear(params) {
+            
+        }
     </script>
 
 
@@ -315,13 +360,16 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <h5 class="modal-title">年分:</h5>
-                        <textarea id="field_DataJSON1" class="form-control" cols="5" rows="1"></textarea>
+                        <textarea id="year" class="form-control" cols="5" rows="1"></textarea>
+
                         <h5 class="modal-title">月份:</h5>
-                        <textarea id="field_DataJSON1" class="form-control" cols="5" rows="1"></textarea>
+                        <textarea id="montht" class="form-control" cols="5" rows="1"></textarea>
+
                         <h5 class="modal-title">日期:</h5>
-                        <textarea id="field_DataJSON1" class="form-control" cols="5" rows="1"></textarea>
+                        <textarea id="day" class="form-control" cols="5" rows="1"></textarea>
+
                         <h5 class="modal-title">新增事項</h5>
-                        <textarea id="field_DataJSON1" class="form-control" cols="5" rows="10"></textarea>
+                        <textarea id="things" class="form-control" cols="5" rows="10"></textarea>
                     </div>
 
                     <!-- Modal footer -->

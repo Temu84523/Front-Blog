@@ -99,12 +99,13 @@
 
             //找出點選的是哪一筆資料
             var click = $("#dvPuzzle div");
-            console.log(click);
+            // console.log(click);
 
-
+            console.log(this);
+            console.log($(this));
 
             var ad = click.index(this);   //var point = $("#dvPuzzle div") var ad =point.index(this)  比較好理解的寫法
-            console.log('ad :' + ad);
+            // console.log('ad :' + ad);
 
             //確認四周圖片的位子編號
             var nearad = Near(ad);
