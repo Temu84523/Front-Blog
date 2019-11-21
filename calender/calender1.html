@@ -111,7 +111,6 @@
             console.log(LDay);
         }
 
-
         function CreateCalendar() {
             Firstday();
             //[step3:顯示出當月月曆及月曆標題]
@@ -209,23 +208,10 @@
             Addevent.actevent = $("#things").val();
             Eventlist.push(Addevent);
             var document=JSON.stringify(Eventlist);
+            localStorage.setItem('Avtivity', str);
 
-
-            
-            console.log(Eventlist);
             console.log(document);
-            
-           
-       
-            // if (temp.actTime == undefined) {
-            //     temp.actTime = "";
-            // }
-            // temp.actContext = $("#actContext").val();
-            // console.log(temp.actTitle + temp.actYear + temp.actMonth + temp.actday);
-            // actList.push(temp);
-            // var str = JSON.stringify(actList); //把dat資料json化
-            // console.log(str);
-            // localStorage.setItem('Avtivity', str);//存到本機
+
         }
 
         class Event {
@@ -238,6 +224,9 @@
             }
         }
 
+        
+
+        
         //清空新增表格欄位的值
         function clear(params) {
             
