@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>統計圖</title>
+
+    <!--JQ的引用-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--vue的引用-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+
+    <script>
+        var vm;
+        var dat = [1, 3, 6, 2, 6, 23, 61, 25, 7];
+        function binding() {
+            vm = new Vue(
+                {
+                    el: "#statistics",  // el代表指定綁定的區塊                  
+                    data: dat
+                }
+            );
+        }
+
+        $(function () {
+            binding();
+        });
+    </script>
+</head>
+
+<body>
+    <div id="statistics">
+        <div v-for="item in dat">
+            <div>{{item}}</div>
+            <div :style="{width:item*10+'px'}" style="background:green;height: 30px;"></div>
+        
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tax </title>
+     <!--JQ的引用-->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+     <!--vue的引用-->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+
+
+    <script>
+        function Caculate() {
+            new Vue(
+                {
+                    el: "#block1",
+                    data: { outTax:0 },
+                    computed: {
+                        Tax: {
+                            get :function(){
+                               return this.outTax*1.05;
+                            },
+                            set :function(val){
+                                this.outTax=val/1.05;
+                            }
+                        }
+                    },
+                }
+            )
+        }
+
+        $(function () {
+            Caculate();
+            
+        });
+    </script>
+
+</head>
+
+<body>
+    <div id="block1" class="row" style="margin: 10px">
+        <div class="col-6">
+            <label>未稅價格: </label>
+            <input v-model="outTax"><br />
+            <label>含稅價格: </label>
+            <input v-model="Tax"><br />
+        </div>
+    </div>
+
+</body>
+
+</html>

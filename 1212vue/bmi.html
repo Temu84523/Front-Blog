@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>computed範例2 雙向binding</title>
+    <!--JQ的引用-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+     <!--vue的引用-->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+
+
+
+     <script>
+     
+     $(function () {
+        Caculate();
+     });
+
+     function Caculate() {
+         new Vue(
+             {
+                 el:"#block1",
+                 data:{height:0,weight:0},
+                 computed: {
+                     BMI:function (){
+                         var h=this.height/100;
+                         return this.weight/(h*h);
+
+                     }
+                 },
+             }
+         )        
+     }
+     
+     </script>
+</head>
+<body>
+    <div id="block1" class="row" style="margin: 10px">
+        <div class="col-6">
+            <label>身高: </label>
+            <input v-model="height"><br />
+            <label>體重: </label>
+            <input v-model="weight"><br />
+            <label>BMI={{BMI}}</label>
+        </div>
+    </div>
+    
+</body>
+</html>

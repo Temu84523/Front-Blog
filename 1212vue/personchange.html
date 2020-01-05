@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>更換個人資料</title>
+    <!--JQ的引用-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--vue的引用-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <!-- bootstrap 4.3.1 -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+
+    <script>
+
+        var getvue; //接vuex
+
+        $(function () {
+            binding();
+
+            $('#getdata').click(function () {
+                getvue.$data.items = json2.data2 // 如果 寫成getvue.$data.items = "json2.data2" 會foreach出所有個表格
+            });
+        });
+
+        var json = {
+            "data": [{     // 若沒有把資料包成一個集合物件的話，每一行 ID: 3 就會被認為是一個個的物件
+                ID: 3,
+                title: "總裁",
+                name: "Eric",
+                PictureURL: "https://i.imgur.com/uxvy97n.png",
+                Phone: "0912345678",
+                Address: "新竹市大同區二三五路四號六樓",
+                Memo: "澳洲來的人", isValid: true//說明是否為有效的資料
+            }]
+        };
+
+
+        var json2 = {
+            "data2": [{
+                ID: 3,
+                title: "PM",
+                name: "Dylan",
+                PictureURL: "https://i.imgur.com/uxvy97n.png",
+                Phone: "0912345678",
+                Address: "新竹市大同區二三五路四號六樓",
+                Memo: "澳洲來的人", isValid: true
+            }]
+        };
+
+        function binding() {
+            getvue = new Vue(
+                {
+                    el: "#person",
+                    data: { "items": json.data }
+                    //{data:item.jeson[0]}
+                }
+            );
+        }
+
+        
+     
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row" id="person">
+            <div class="col-6" v-for="item in items">
+                <!-- 重要!! v-for是要針對物件去foreach出來，所以需要把jason裡面的資料包成一個物件 -->
+                <div>
+                    <img v-bind:src="item.PictureURL">
+                </div>
+                <div class="card-body">
+                    <label>資料編號:{{item.ID}}</label>
+                    <br>
+                    <label> 職位</label>
+                    <input type="text" v-model="item.title" />
+                    <label> 姓名</label>
+                    <input type="text" v-model="item.name">
+                    <label> 電話</label>
+                    <input type="text" v-model="item.Phone">
+                    <label> 地址</label>
+                    <input type="text" v-model="item.Address">
+                    <label> 描述</label>
+                    <input type="text" v-model="item.Memo">
+                </div>
+
+                <div class="col-6">
+                    <button id="getdata"> 更換資料</button>
+                    <button id="nextdata"> 下一筆</button>
+                    <button id="beforedata"> 上一筆</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

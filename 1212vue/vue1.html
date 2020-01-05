@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Vue範例1</title>
+
+    <!--JQ的引用-->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!--vue的引用-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+
+    <script>
+
+        $(function () {
+            binding();
+            //$('#change').click(); //單純這樣寫是錯誤的，因為括弧裡面沒有function事件
+            
+            $('#change').click(function () {
+            Json.title = "改變一下";
+            alert(Json.title)
+        });
+        });
+
+        var Json = { title: "哈囉您好", test: { haha: "哈哈" } };
+
+        function binding() {
+            new Vue(
+                {
+                    el: "#block1",  // el代表指定綁定的區塊
+                    data: Json      // data代表指定的資料
+                }
+            );
+        }
+
+        $('#change').click(function () {
+            Json.title = "改變一下";
+            alert(Json.title)
+        });
+
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div id="block1">
+                <!-- {{裡面的這個值，是對應Json裡面的屬性 title 對上 Json裡面的title}} -->
+                <div class="col-6">
+                    <div>{{title}}</div>
+                    <!-- Jason裡面包物件的寫法 -->
+                    <div>{{test.haha}}</div>
+                </div>
+                <!-- 反綁定  流程是先改變記憶體中 title的值 才會改變body裡面的{{title}}-->
+                <div class="col-6">
+                    <input type="text" v-model="title">
+                    <button id="change"> 改變內容</button>
+                </div>
+            </div>
+        </div>
+
+
+</body>
+
+</html>

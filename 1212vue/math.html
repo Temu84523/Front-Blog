@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>computed範例</title>
+    <!--JQ的引用-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+     <!--vue的引用-->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+
+    <script>
+
+
+        $(function () {
+            binding();
+        });
+
+
+        function binding() {
+            new Vue( //Vue 的 "V"一定要大寫
+                {
+                    el: "#block1",
+                    data: {number:0},
+                    computed: {
+                        result:function(){
+                            var total=0;
+                            for(let index=1;index<=this.number;index++)
+                            {
+                                total=index+total;
+                            }
+                            return total;
+                        }
+                    },
+
+                }
+            )
+        }
+
+
+    </script>
+
+
+
+</head>
+
+<body>
+    <div id="block1" class="row" style="margin: 10px">
+        <div class="col-6">
+            <label>數值: </label>
+            <br />
+            <input v-model="number"><br />
+            <label>1 +...+ {{number}} = {{result}}</label>
+        </div>
+    </div>
+
+</body>
+
+</html>

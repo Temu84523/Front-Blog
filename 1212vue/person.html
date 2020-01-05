@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue個人清單範例</title>
+
+    <!--JQ的引用-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--vue的引用-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <!-- bootstrap 4.3.1 -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+
+    <script>      
+        $(function () {
+            binding();
+
+            $('#getdata').click(function () {
+                alert(JSON.stringify(json))
+               
+            });
+        });
+
+        var json = {
+            ID: 3,
+            title: "總裁",
+            name: "Eric",
+            PictureURL: "https://i.imgur.com/uxvy97n.png",
+            Phone: "0912345678",
+            Address: "新竹市大同區二三五路四號六樓",
+            Memo: "澳洲來的人", isValid: true
+        };
+
+        function binding() {
+            new Vue(
+                {
+                    el: "#person",  // el代表指定綁定的區塊
+                    //data: json      // data代表指定的資料
+                    data:  json 
+                }
+            );
+        }
+
+    </script>
+</head>
+
+<body>
+    <div id="person">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card" style="width: 18rem;">
+                        <img v-bind:src="PictureURL">
+                    </div>
+                    <div class="card-body">
+                        <label>資料編號:{{ID}}</label>
+                        <br>
+                        <label> 職位</label>
+                        <input type="text" v-model="title">
+                        <label> 姓名</label>
+                        <input type="text" v-model="name">
+                        <label> 電話</label>
+                        <input type="text" v-model="Phone">
+                        <label> 地址</label>
+                        <input type="text" v-model="Address">
+                        <label> 描述</label>
+                        <input type="text" v-model="Memo">
+                    </div>
+
+                    <div class="col-6">
+                        <button id="getdata"> 得到資料</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

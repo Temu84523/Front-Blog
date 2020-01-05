@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">   
+    <title>directive</title>
+     <!--JQ的引用-->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+     <!--vue的引用-->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+
+<script>
+     $(function () {
+        Binding();
+     });
+     Vue.directive('background',{
+            bind:function(R,V){
+                R.style.backgroundColor=V.value;
+            },
+            update:function(R,V){
+                R.style.backgroundColor=V.value;       
+            }       
+        });
+    function Binding() {
+
+       new Vue(
+           {
+               el:"#block1",
+               data:{color:"#3498db"}
+           }
+       )
+    }
+
+   
+
+       
+</script>
+
+   
+
+
+
+
+
+
+</head>
+<body>
+    <div id="block1" class="row" style="margin: 10px">
+        <div class="col-6">
+            <label>顏色編碼: </label>
+            <input v-model="color"><br />
+            <label>顏色顯示: </label>
+            <input v-background="color" value="就是這個顏色"><br />
+          
+        </div>
+    </div>
+    
+</body>
+</html>

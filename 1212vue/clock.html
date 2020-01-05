@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue時鐘範例 </title>
+
+    <!--JQ的引用-->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!--vue的引用-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+
+    <script>
+        var clockData = { title: "哈囉您好" };
+        function bind() {
+            new Vue(
+                {
+                    el: "#clock",
+                    data: clockData
+                }
+            );
+        }
+
+        function setupClock() {
+            clockData.title = Date();
+            setTimeout(setupClock, 1000)
+        }
+
+
+        $(function () {
+            bind();
+            setupClock();
+        });
+    </script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div id="clock">
+                <!-- {{裡面的這個值，是對應Json裡面的屬性 title 對上 Json裡面的title}} -->
+                <div>{{title}}</div>                
+            </div>
+        </div>
+
+
+</body>
+
+</html>

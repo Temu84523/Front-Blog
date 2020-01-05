@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>日曆修訂</title>
+
+    <!--引用:https://www.w3schools.com/bootstrap4/tryit.asp?filename=trybs_table_bordered&stacked=h-->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <!-- 偷吃步版本-->
+    <!-- Moment.js v2.20.0 -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.0/moment.min.js"></script>
+    <!-- FullCalendar v3.8.1 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.1/fullcalendar.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.1/fullcalendar.print.css" rel="stylesheet"
+        media="print">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.1/fullcalendar.min.js"></script>
+
+
+    <style>
+        tbody td {
+
+            height: 100px;
+            width: 12%;
+
+        }
+
+        .monthword {
+            text-align: center;
+
+        }
+    </style>
+
+
+    <script>
+        var Calender = [];
+        var Days;
+        var count = 0;
+        var currentDate;
+        var currentMonth;
+        var currentYear;
+        var currentDay;
+        var firstDate;
+        var lastDate;
+        var CountDays;
+
+
+
+        $(function () {
+
+            SetCalenderDate();
+            $('#premonth').click(function (e) {
+                count--;
+                renewCalenderDate();
+            });
+            $('#nextmonth').click(function (e) {
+                count++;
+                renewCalenderDate();
+            });
+            $('#saveData').click(function (e) {
+                SaveData();
+            });
+            $('#deleteData').click(function (e) {
+                DeleteData();
+            });
+
+        });
+
+
+        function SetCalenderDate() {
+            SetDays();
+            LastMDate();// 順序有差別
+            CurrentDate();
+            NextMDate();
+            DisplayCalender();
+            clickDate();
+
+        }
+
+        function SetDays() {
+            Days = new Date();
+            Days.setMonth(Days.getMonth() + count);  //加入count 主要是為了要做 前一個月 或是後一個月
+            currentMonth = Days.getMonth();
+            currentYear = Days.getFullYear(); //為何不用 getyear 从 ECMAScript v3 开始，JavaScript 的实现就不再使用该方法
+            currentDay = Days.getDay();
+            firstDate = new Date(currentYear, currentMonth, 1);
+            lastDate = new Date(currentYear, currentMonth + 1, 0); //
+            CountDays = ((lastDate - firstDate) / (1000 * 60 * 60 * 24)) + 1;
+
+        }
+
+        function CurrentDate() {
+            var begin = firstDate.getDate();
+            var end = lastDate.getDate();
+            for (let i = begin; i <= end; i++) {
+                var data = {
+                    "month": firstDate.getMonth() + 1,
+                    "date": i,
+                    "week": new Date(currentYear, currentMonth, i).getDay()
+                }
+                Calender.push(data);
+            }
+
+        }
+
+        function LastMDate() {
+
+            var lastDate = new Date(currentYear, currentMonth, 0); // 取得前一個月的最後一天年月日
+            var firstDay = firstDate.getDay();   //取得當月的第一天是星期幾
+            var displayWeekday = lastDate.getDay() - firstDay + 1; //從星期幾開始填前一個月最後的幾號
+            var displayDate = lastDate.getDate() - firstDay + 1; //從幾號開始填
+
+            for (let i = 0; i < firstDay; i++) {
+                var data = {
+                    "month": lastDate.getMonth() + 1, // 因為程式的月份 是從0-11開始排
+                    "date": displayDate,
+                    "week": displayWeekday
+                };
+                displayDate++;
+                displayWeekday++;
+                Calender.push(data);
+            }
+        }
+
+        function NextMDate() {
+
+            var NextDate = new Date(currentYear, currentMonth + 1, 1);
+            var lastDay = lastDate.getDay();
+            for (let i = 0; i < 6 - lastDay; i++) {
+                var data = {
+                    "month": NextDate.getMonth() + 1,
+                    "date": NextDate.getDate() + i,
+                    "week": NextDate.getDay() + i
+                };
+                Calender.push(data);
+            };
+        }
+
+
+        //建立月曆列表
+        function DisplayCalender() {
+
+            var today = new Date();
+            data = LoadData();
+            $('#year').text(currentYear);
+            $('#month').text(ShowMonth(currentMonth));
+            var rows = Calender.length / 7;
+            for (let i = 0; i < rows; i++) {
+                $("tbody").append($('<tr>').addClass('week' + i));
+            }
+            for (let i = 0; i < Calender.length; i++) {
+                var whichWeek = parseInt(i / 7);
+                $("tbody").find(".week" + whichWeek)
+                    .append($('<td id=' + i + '>')
+                        .text(Calender[i].date));
+                /*  if (Calender[i].date === today.getDate() && Calender[i].month === (today.getMonth() + 1) && count == 0) {
+                     $('#' + i).addClass('today'); */
+
+
+                if (data != null) {
+                    data.forEach(x => {
+                        if (x.date === (currentYear + '-' + checkFormat(Calender[i].month) + '-' + checkFormat(Calender[i]
+                            .date))) {
+                            $('#' + i).text($('#' + i).text() + '\n' + x.content);
+                            $('#' + i).html($('#' + i).html().replace(/\n/g, '<br/>')); //換行
+                        }
+                    })
+                }
+            };
+
+            /*  if (Calender[i].month != currentMonth + 1) {
+                 $('#' + i).addClass('notThisMonth');
+             } */
+        }
+        //轉換星期幾
+        function ShowMonth(mon) {
+            var month = new Array(12);
+            month = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月',
+                '11月', '12月'
+            ];
+            return month[parseInt(mon % 12)];
+
+        }
+
+
+        //月曆功能區--------------------------------------
+
+        // 重新填寫月曆
+        function renewCalenderDate() {
+            $("tbody").remove();
+            $("table").append($('<tbody>'));
+            Calender = [];
+            SetCalenderDate();
+        }
+
+        //為每日建立click事件 可以新增事件上去
+        function clickDate() {
+            $('td').click(function (e) {
+                $('#form').modal();
+                $('#formDate').val(currentYear + '-' + checkFormat(Calender[this.id].month) + '-' + checkFormat(Calender[
+                    this.id].date));
+                $('#things').val('');
+                data = LoadData();
+                if (data != null) {
+                    data.forEach(x => {
+                        if (x.date === $('#formDate').val()) {
+                            $('#things').val(x.content);
+                        }
+                    })
+                }
+            });
+
+        }
+        // 確認傳進來的值是否為雙位數
+        function checkFormat(value) {
+            if (value < 10) {
+                return '0' + value;
+            } else {
+                return value;
+            }
+        }
+
+
+        function LoadData() {
+            if (localStorage.data != null) {
+                return JSON.parse(localStorage.data);
+            }
+            else
+                return null;
+
+        }
+
+        function SaveData() {
+            var date = $('#formDate').val();
+            var content = $('#things').val();
+            data = LoadData();
+            if (data == null) {
+                data = [];
+            }
+            if (content != "") {
+                data.push({
+                    date: date,
+                    content: content
+                });
+                localStorage.data = JSON.stringify(data);
+                $('#form').modal('hide');
+                renewCalenderDate();
+            }
+        }
+
+        function DeleteData() {
+            $('#form').modal('hide');
+            data = LoadData();
+            if (data != null) {
+                var n = findIndexByKeyValue(data, 'date', $('#formDate').val());
+                data.splice(n, 1);
+
+                localStorage.data = JSON.stringify(data);
+                renewCalenderDate();
+            }
+        }
+
+        function findIndexByKeyValue(obj, key, value) {
+          for (var i = 0; i < obj.length; i++) {
+            if (obj[i][key] == value) {
+              return i;
+            }
+          }
+          return null;
+        }
+
+        
+    </script>
+
+
+
+
+
+
+
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <h2>行事曆
+                <button type="button" class="btn btn-outline-info" id="add">+ </button>
+            </h2>
+        </div>
+
+
+        <!--中間月曆-->
+
+        <!--<div id="calendar"></div>偷吃步版本-->
+        <table class="table table-bordered">
+            <thead>
+
+                <tr class="monthword">
+                    <th colspan="2"><a id="premonth" href="#" style="margin-left: 40%;">&lt;&lt;</a></th>
+                    <td colspan="3">
+                        <span class="h2" id="year"> </span>
+                        <span class="h2" id="month"> </span>
+                    </td>
+                    <th colspan="2"><a id="nextmonth" href="#" style="margin-left: 50%;">&gt;&gt;</a></td>
+                </tr>
+                <tr>
+                    <th>星期日</th>
+                    <th>星期一</th>
+                    <th>星期二</th>
+                    <th>星期三</th>
+                    <th>星期四</th>
+                    <th>星期五</th>
+                    <th>星期六</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            </tbody>
+        </table>
+
+        <!--新增事項-->
+
+        <div class="modal fade" id="form">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">新增行事曆</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <h5 class="modal-title">日期:</h5>
+                        <input class="form-control" type="date" id="formDate" name="fieldDate">
+
+                        <h5 class="modal-title">新增事項</h5>
+                        <textarea id="things" class="form-control" cols="5" rows="10"></textarea>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button id="saveData" type="button" class="btn btn-primary" data-dismiss="modal">新增</button>
+                        <button type="button" class="btn btn-info" id="deleteData">刪除</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

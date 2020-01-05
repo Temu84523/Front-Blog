@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+        integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous"></script>
+
+
+    <script>
+
+
+
+        function Binding() {
+            new Vue(
+                {
+                    el: '#block1',
+                    data: null
+
+                }
+            );
+        }
+
+        function DefineComponent() {
+            Vue.component('my-component', {
+                
+                //方法1
+                //template: '<div><label>欄位名稱{{haha}}</label><input class="form-control" type="text" value="哈哈"/></div>',
+                //props:["haha"], //說明：也可以在vue建立一個自訂議的屬性欄位
+                //方法2
+                template: "#my-template",
+                props:["haha"]
+                
+            });
+
+
+        }
+
+
+        $(function () {
+            DefineComponent();  //這個順序是有差別的，Component要先跑
+            Binding();
+
+        });
+
+    </script>
+</head>
+
+<body>
+
+    <div id="block1" class="row" style="margin: 10px">
+        <div class="col-6">
+            <h3>Component Test</h3><br />
+            <my-component haha="呵呵"></my-component>
+            <br />
+            <my-component ></my-component>
+            <br />
+            <my-component></my-component>
+            <br />
+        </div>
+    </div>
+
+    <!-- 方法2區塊-->
+    <template id="my-template">
+        <div><label>欄位名稱</label><input class="form-control" type="text" v-model="haha"/></div>
+    </template> 
+
+</body>
+
+</html>
